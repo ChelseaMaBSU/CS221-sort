@@ -54,7 +54,7 @@ public class Sort
 	{
 		mergesort(list, c);
 	}
-	
+
 	/**
 	 * Mergesort algorithm to sort objects in a list 
 	 * that implements the IndexedUnsortedList interface, 
@@ -111,7 +111,7 @@ public class Sort
 			list.addToRear(right.removeFirst());
 		}
 	}
-		
+
 	/**
 	 * Mergesort algorithm to sort objects in a list 
 	 * that implements the IndexedUnsortedList interface,
