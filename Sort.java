@@ -18,7 +18,7 @@ public class Sort
 	 */
 	private static <T> IndexedUnsortedList<T> newList() 
 	{
-		return new WrappedDLL<T>(); //TODO: replace with your IUDoubleLinkedList for extra-credit
+		return new IUDoubleLinkedList<T>(); //TODO: replace with your IUDoubleLinkedList for extra-credit
 	}
 	
 	/**
@@ -68,7 +68,48 @@ public class Sort
 	 */
 	private static <T extends Comparable<T>> void mergesort(IndexedUnsortedList<T> list)
 	{
-		// TODO: Implement recursive mergesort algorithm 
+		//base case: list iwth 0 or 1 element already sorted
+		if (list.size() <= 1) {
+			return;
+		}
+		
+		//split list into halves
+		IndexedUnsortedList<T> left = newList();
+		IndexedUnsortedList<T> right = newList();
+
+		int midpoint = list.size() / 2;
+
+		//move first half to left list
+		for (int i = 0; i < midpoint; i++) {
+			left.addToRear(list.removeFirst());
+		}
+
+		//move second half to right list
+		while (!list.isEmpty()) {
+			right.addToRear(list.removeFirst());
+		}
+
+		//recursively sort both halves
+		mergesort(left);
+		mergesort(right);
+
+		//merge sorted halves back into og list
+		while (!left.isEmpty() && !right.isEmpty()) {
+			if (left.first().compareTo(right.first()) <= 0) {
+				list.addToRear(left.removeFirst());
+			} else {
+				list.addToRear(right.removeFirst());
+			}
+		}
+
+		//add any remaining elements from left / right
+		while (!left.isEmpty()) {
+			list.addToRear(left.removeFirst());
+		}
+
+		while (!right.isEmpty()) {
+			list.addToRear(right.removeFirst());
+		}
 	}
 		
 	/**
@@ -86,8 +127,48 @@ public class Sort
 	 */
 	private static <T> void mergesort(IndexedUnsortedList<T> list, Comparator<T> c)
 	{
-		// TODO: Implement recursive mergesort algorithm using Comparator
+		//base case: list iwth 0 or 1 element already sorted
+		if (list.size() <= 1) {
+			return;
+		}
+		
+		//split list into halves
+		IndexedUnsortedList<T> left = newList();
+		IndexedUnsortedList<T> right = newList();
 
+		int midpoint = list.size() / 2;
+
+		//move first half to left list
+		for (int i = 0; i < midpoint; i++) {
+			left.addToRear(list.removeFirst());
+		}
+
+		//move second half to right list
+		while (!list.isEmpty()) {
+			right.addToRear(list.removeFirst());
+		}
+
+		//recursively sort both halves
+		mergesort(left,c);
+		mergesort(right,c);
+
+		//merge sorted halves back into og list
+		while (!left.isEmpty() && !right.isEmpty()) {
+			if (c.compare(left.first(), right.first()) <= 0) {
+				list.addToRear(left.removeFirst());
+			} else {
+				list.addToRear(right.removeFirst());
+			}
+		}
+
+		//add any remaining elements from left / right
+		while (!left.isEmpty()) {
+			list.addToRear(left.removeFirst());
+		}
+
+		while (!right.isEmpty()) {
+			list.addToRear(right.removeFirst());
+		}
 	}
 	
 }
